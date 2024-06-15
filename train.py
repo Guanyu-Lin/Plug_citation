@@ -62,7 +62,7 @@ if __name__ == "__main__":
     device_list = args.gpu.split(",")
     for a in range(0, len(device_list)):
         gpu_list.append(int(a))
-    # print(gpu_list)
+    print(gpu_list)
     bmt.init_distributed(seed=1003)
     print_rank(args.hyper_para)
     parse_hyper_para(args.hyper_para, config)

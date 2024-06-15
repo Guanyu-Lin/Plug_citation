@@ -32,7 +32,9 @@ def init_optimizer(model, config, *args, **params):
         param_group = model.parameters()
         # param_group = [{"params": model.ctx_encoder.parameters(), "lr": 1e-3}, {"params": model.que_model.parameters(), "lr": 1e-4}]
         print("all parameters are turned")
-    
+    for name, param in model.named_parameters():
+        print(name, param.requires_grad)
+
     optimizer = bmt.optim.AdamOffloadOptimizer(param_group, lr=learning_rate,
                                 weight_decay=config.getfloat("train", "weight_decay"))
     # if optimizer_type == "adam":

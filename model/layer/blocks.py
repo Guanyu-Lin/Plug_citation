@@ -465,6 +465,7 @@ class TransformerPlugBlock(torch.nn.Module):
         super().__init__()
 
         self.mask_att = mask_att
+        self.cur_layer = 0
         self.mask_cross = mask_cross
         self.mask_ffn = mask_ffn
         self.is_decoder = is_decoder
@@ -562,7 +563,9 @@ class TransformerPlugBlock(torch.nn.Module):
         Return:
             :obj:`torch.Tensor` of shape ``(batch, seq_self, dim_model)``: The output of transformer block.
         """ 
-
+        self.cur_layer = self.cur_layer + 1
+        if save_score:
+            save_score = save_score + "_layer_" + str(self.cur_layer)
         if return_plug is not None and self.layer_no > return_plug["layerth"]:
             return self_hidden_states
         if deltas is not None and deltas["type"] == "prefix" and self.layer_no >= deltas["layerth"]:

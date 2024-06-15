@@ -272,6 +272,7 @@ class Attention(bmt.DistributedModule):
 						plt.xlabel('key',fontsize=13)
 						plt.tight_layout()
 						plt.savefig("plot_fig/" + save_score+"_mask.pdf")
+						plt.clf()
 						# torch.save(mask_score[0,0], "plot_fig/" + save_score+"_mask.pt")
 						print("save", save_score)
 			

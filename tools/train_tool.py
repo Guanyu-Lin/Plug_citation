@@ -53,6 +53,7 @@ def train(parameters, config, gpu_list, do_test=False, only_eval=False):
 		init_formatter(config, ["test"])
 		test_dataset = init_test_dataset(config)
 	grad_accumulate = config.getint("train", "grad_accumulate")
+	#grad_accumulate = 10
 	output_grad_step = config.getint("output", "output_grad_step")
 
 	max_grad_norm = config.getfloat('train', 'max_grad_norm')
@@ -92,7 +93,8 @@ def train(parameters, config, gpu_list, do_test=False, only_eval=False):
 
 		if not only_eval:
 			for step, data in enumerate(dataset):
-				# print(bmt.rank(), "step")
+
+				print(bmt.rank(), step)
 				if epoch_num == 1 and step < parameters["skip-step"]:
 					print_rank("skip step %s" % step, end="\r")
 					continue
@@ -102,7 +104,8 @@ def train(parameters, config, gpu_list, do_test=False, only_eval=False):
 							data[key] = Variable(data[key].cuda())
 						else:
 							data[key] = Variable(data[key])
-				# break
+				
+# break
 				if (step + 1) == total_len:
 					results = model(data, config, gpu_list, acc_result, "train", "step_%d_epoch_%d" % (step + 1, epoch_num+1))
 				else:
@@ -126,6 +129,7 @@ def train(parameters, config, gpu_list, do_test=False, only_eval=False):
 					if max_grad_norm is not None and max_grad_norm > 0:
 						grad_norm = optim_manager.clip_grad_norm(optimizer.param_groups, max_grad_norm, norm_type=2)
 						grad_norm = grad_norm.item()
+						print("grad_norm", grad_norm)
 					optim_manager.step()
 					optim_manager.zero_grad()
 

@@ -147,19 +147,7 @@ class PlugD(nn.Module):
 	#	  # doc_plug = self.doc_plug_mapper(last_hidden.last_hidden_state, attention_mask)
 	#	  doc_plug = last_hidden.last_hidden_state
 	#	  return doc_plug, last_hidden
-	
-	def cal_dec(self, hiddens, mask, dec_inp, dec_mask):
-		batch, hidden_num, hidden_size = hiddens.size()
-		mask_num = mask.size(1)
-		if mask_num != hidden_num:
-			mask = torch.max(mask.view(batch, -1, self.nto1), dim=2)[0]
-		output, logits = self.backbone(
-			encoder_outputs=hiddens,
-			attention_mask=mask,
-			decoder_input_ids=dec_inp,
-			decoder_attention_mask=dec_mask,
-		)
-		return logits
+
 
 	def forward(self, data, no_ctx=False, save_score=None):
 		# if self.pretrain:
