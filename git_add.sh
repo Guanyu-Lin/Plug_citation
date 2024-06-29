@@ -1,0 +1,10 @@
+git add config/*
+git add config_parser/*
+git add dataset/*
+git add *.py
+git add formatter/*
+git add model/*
+git add reader/*
+git add run_script/*
+git add tools/*
+git add *.sh
